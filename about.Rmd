@@ -1,10 +1,30 @@
 ---
-title: "About this site"
+title: "About Me"
 description: |
-  Some additional details about the website
+  Professional skills and interests.
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Doctoral Research
+### *Fire at the lab to landscape scale.*
+**Modeling Wildfire**
+• Develop a cellular automata model in Python to test assumptions of how wildfire behavior changes in response to live fuel moisture. • Explore modeling techniques to identify strategies best suited to investigate wildfire response to changes in fuel (vegetation). • Produce daily burn area predictions to be validated against recorded daily burn perimeters.
+
+**Plant Flammability Testing**
+• Test the combustion characteristics of plants found in the Santa Barbara wildland urban interface, including time to ignition, flame height and duration, temperature of ignition, heat flux, and more. • Develop a novel calorimeter, combustion chamber, and methods to track heat release rate over time from combusting plant samples up to 8 inches. • Analyze combustion data to inform plant selection and maintenance within the wildland urban interface to minimize risk of wildfire to homes.
+
+**Geospatial Analytics of Wildfire and Live Fuel Moisture**
+• Apply techniques of geospatial statistics to recorded wildfire perimeters investigating the effect of live fuel moisture on fire size and frequency in Southern California chaparral. • Perform segmented linear regression to detect thresholding behavior of wildfire size and frequency in response to decreasing moisture content of living plants. • Analyze the effects of multiple variables on daily fire spread, such as wind, temperature, and slope, to determine the relative importance of live fuel moisture to wildfire size and frequency.
+
+
+## Professional Experience
+**Earth Science Information Partners: Fellow**
+*Oct 2020 - Nov 2021*
+• Collaborate with Envirosensing cluster leadership in organizing and recording monthly cluster calls to promote discussion among members on topics of remote, in-situ environmental sensing including new sensor technologies, telemetry, and data management. • Author a blog post on the importance of video microtutorials for equitable data access to inspire engagement in cluster activity from the ESIP data science community. • Participate in ESIP biannual meetings to provide a student perspective on data science and learn about cutting edge developments in the field, co-organize meeting sessions with Envirosensing cluster chairs.
+
+**Water (Civil) Engineer Intern, HDR**
+*Summer 2017*
+• Research and compile technical reports, such as on Mortierella and Lobulomyces spp. (aquatic fungus) to support efforts to eliminate it from a local water treatment plant. • Establish project documentation, including Project Set-Up, Management Plans, Budget Reports, Quality Assurance, and Final Reports which are necessary at each stage of the consulting and design process. • Work in GIS to organize data on parcels for site planning.
