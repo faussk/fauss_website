@@ -1,8 +1,8 @@
 [
   {
     "path": "posts/2022-01-16-welcome/",
-    "title": "welcome",
-    "description": "A short description of the post.",
+    "title": "Welcome!",
+    "description": "This is a test blog post.",
     "author": [
       {
         "name": "Kristina Fauss",
@@ -11,9 +11,9 @@
     ],
     "date": "2022-01-16",
     "categories": [],
-    "contents": "\nDistill is a publication format for scientific and technical writing, native to the web.\nLearn more about using Distill at https://rstudio.github.io/distill.\n\n\n\n",
+    "contents": "\nBlog content goes here… Will be upddated with notes on current research…\n\n\n\n",
     "preview": {},
-    "last_modified": "2022-01-30T13:06:40-08:00",
+    "last_modified": "2022-02-07T12:20:53-08:00",
     "input_file": {}
   }
 ]
