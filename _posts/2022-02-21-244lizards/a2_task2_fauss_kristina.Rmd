@@ -6,6 +6,8 @@ author:
   - name: Kristina Fauss
 date: 2022-02-21
 output:
+  html_document:
+    code_folding: hide
   distill::distill_article:
     self_contained: false
 ---
