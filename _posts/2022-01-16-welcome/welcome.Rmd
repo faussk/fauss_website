@@ -1,7 +1,7 @@
 ---
 title: "Welcome!"
 description: |
-  This is a test blog post.
+  Posts will be added with recent work.
 author:
   - name: Kristina Fauss
 date: 2022-01-16
@@ -15,7 +15,6 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Blog content goes here...
-Will be upddated with notes on current research...
+This blog will be updated with details on my current research.
 
 

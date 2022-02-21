@@ -1,0 +1,206 @@
+---
+title: "ESM 244: Lizards Model"
+description: |
+  Classwork for ESM 244 (UCSB) non least squares regression.
+author:
+  - name: Kristina Fauss
+date: 2022-02-21
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=TRUE, message= FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message=FALSE,warning = FALSE)
+library(tidyverse)
+library(Metrics)
+library(cowplot)
+library(knitr)
+library(sjPlot)
+
+```
+
+## Overview
+
+### Data:
+Title: 
+Lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site, 1989-2006.
+
+Description: 
+The time period captured is 1989 to 2006. The data includes the following contents as information about lizards captured at the Jornada Basin LTER across 11 study locations: [date, zone, site, plot, pit, spp, sex, rcap, toe_num, SV_length, weight, tail, pc]. 
+
+Site, plot, and pit refer to capture location, while zone refers to vegetation. Spp indicates a species code. Rcap indicates whether the lizard is a recapture. Sex, toe_num, SV_length, total_length, weight, and tail all reference characteristics of the lizard. Data is intended to track how desertification (change in vegetation) in the Chihuahuan desert affects consumer species. 
+
+Citation: 
+*Lightfoot, D. and W.G. Whitford. 2020. Lizard pitfall trap data from 11 NPP study locations at the Jornada Basin LTER site, 1989-2006 ver 37. Environmental Data Initiative. https://doi.org/10.6073/pasta/4a6e258fb49c31e222ecbbcfd128967f (Accessed 2022-02-03).*
+
+```{r}
+# Read in cleaned data:
+liz_data <- read.csv('lizard.csv')
+```
+
+### Questions:
+Apply non least squares regression to estimate model parameters for a lizard length to weight model.
+
+### Data Exploration
+```{r}
+ggplot(data=liz_data, aes(x=SV_length, y=weight))+
+  labs(title='Length v. Weight Across Species',x='Length',y='Weight',color='Species')+
+  geom_point(aes(color=spp,shape=sex))
+```
+
+### Fit a Snout Length to Weight Model
+
+Original Model:
+\[
+W = a(SVL)^b
+\]
+
+Log transform:
+\[
+ln(W) = b*ln(SVL) + ln(a)
+\]
+
+```{r}
+# Calculate log of SVL and Weight
+liz_data$log_weight <- log(liz_data$weight)
+liz_data$log_SV_length <- log(liz_data$SV_length)
+```
+
+OLS Model of Log-Transformed Data: Supply coeficients to NLS Model
+```{r}
+OLSmod_liz <- lm(log_weight ~ log_SV_length, data=liz_data)
+
+# Get coefficients
+coefs_liz <- as.data.frame(coef(OLSmod_liz))
+b = coefs_liz$`coef(OLSmod_liz)`[2]
+log_a = coefs_liz$`coef(OLSmod_liz)`[1]
+a = exp(log_a)
+```
+
+Define original function:
+```{r}
+f_liz<-function(coef_a,coef_b,SV_length){
+  out=coef_a*(SV_length^coef_b)
+  return(out)
+}
+```
+
+NLS model:
+```{r}
+
+
+# Guess carrying capacity as the largest val in our data
+guess_vec=c(a,b)
+
+NLSmod_liz=nls(weight~f_liz(coef_a,coef_b,SV_length),
+                  data=liz_data,
+                  start=list(coef_a=guess_vec[1],coef_b=guess_vec[2]),
+                  trace=TRUE) # reached a convergence quickly?
+
+tab_model(NLSmod_liz)
+
+```
+
+Plot the NLS model and data:
+```{r}
+# Predict data from NLS model:
+liz_data$weight_pred<-predict(NLSmod_liz)
+
+# Plot
+ggplot()+
+  geom_point(data=liz_data, aes(x=SV_length, y=weight_pred, color=sex))+
+  labs(title='Length v. Weight Across Species',x='Length',y='Weight',color='Sex')
+```
+
+### Western Whiptail Lizard Model:
+```{r}
+# Filter out Western Whiptail Lizard Data: CNTI
+cnti_data <- filter(liz_data,spp=='CNTI',sex=='M')
+```
+
+Data Exploration, CNTI
+
+```{r}
+ggplot(data=cnti_data, aes(x=SV_length, y=weight))+
+  labs(title='Length v. Weight Western Whiptail',x='Length',y='Weight',shape='Sex')+
+  geom_point(aes(shape=sex))
+```
+
+### Fit the Snout Length to Weight Model on CNTI
+
+```{r}
+# Calculate log of SVL and Weight
+cnti_data$log_weight <- log(cnti_data$weight)
+cnti_data$log_SV_length <- log(cnti_data$SV_length)
+```
+
+OLS Model of Log-Transformed Data: Supply coeficients to NLS Model
+```{r}
+OLSmod_cnti <- lm(log_weight ~ log_SV_length, data=cnti_data)
+
+# Get coefficients
+coefs_cnti <- as.data.frame(coef(OLSmod_cnti))
+b_cnti = coefs_cnti$`coef(OLSmod_cnti)`[2]
+log_a_cnti = coefs_cnti$`coef(OLSmod_cnti)`[1]
+a_cnti = exp(log_a_cnti)
+```
+
+Define original function:
+```{r}
+f_cnti<-function(coef_a,coef_b,SV_length){
+  out=coef_a*(SV_length^coef_b)
+  return(out)
+}
+```
+
+NLS model:
+```{r}
+
+
+# Guess carrying capacity as the largest val in our data
+guess_vec_cnti=c(a_cnti,b_cnti)
+
+NLSmod_cnti=nls(weight~f_cnti(coef_a,coef_b,SV_length),
+                  data=cnti_data,
+                  start=list(coef_a=guess_vec_cnti[1],coef_b=guess_vec_cnti[2]),
+                  trace=TRUE) # reached a convergence quickly?
+
+tab_model(NLSmod_cnti)
+```
+
+Plot the NLS model and data:
+```{r}
+# Predict data from NLS model:
+cnti_data$weight_pred<-predict(NLSmod_cnti)
+
+# Plot
+ggplot()+
+  geom_point(data=cnti_data, aes(x=SV_length, y=weight_pred, color=sex))+
+  labs(title='Length v. Weight Across Species',x='Length',y='Weight',color='Sex')
+```
+### Plot of both models:
+
+```{r}
+# Filter model output trained on total to just CNTI for comparison:
+liz_data_cnti<-filter(liz_data,spp=='CNTI',sex=='M')
+
+# Calculate RMSE's
+tot_mod_rmse <- rmse(liz_data_cnti$weight,liz_data_cnti$weight_pred)
+cnti_mod_rmse <- rmse(cnti_data$weight,cnti_data$weight_pred)
+
+cap=paste('RMSE for Total model over CNTI:',round(tot_mod_rmse,2),'\nRMSE for CNTI model over CNTI:',round(cnti_mod_rmse,2),'\nThe Male-CNTI specific model is better at predicting weights of Male CNTI lizards \nand should be used for this specific case but may not generalize well to other species.')
+```
+
+
+```{r}
+# Plot
+ggplot()+
+  geom_point(data=cnti_data, aes(x=SV_length, y=weight_pred, col='CNTI'))+
+  geom_point(data=liz_data_cnti, aes(x=SV_length, y=weight_pred, col='Total'))+
+  labs(title='Length v. Weight Across Species',x='Length',y='Weight',color='Model',caption=cap)
+```
+
+
+
+

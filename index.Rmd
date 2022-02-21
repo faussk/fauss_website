@@ -15,7 +15,7 @@ site: distill::distill_website
  
 ## Bio
 
-I moved to Santa Barbara to study wildfire through geospatial analysis, and have since fallen in love with both the city and my work. My passion lies in teasing out stories from stocks of unsorted information and seeing those stories translate into action, whether that means testing physical samples or analyzing large quantities of information. I love spending a day experimenting with different programming tools to discover the stories hidden in my data. While at UCSB, I have committed to seeking out courses that supplement my experience, including courses in SQL, Python, and R with an emphasis on statistics, GIS, and machine learning. 
+I moved to Santa Barbara to study wildfire through geospatial analysis, and have since fallen in love with both the city and my work. My passion lies in teasing out stories from stocks of unsorted information and seeing those stories translate into action, whether that means testing physical samples or analyzing large quantities of information. I love spending a day experimenting with different programming tools to discover what is hidden in my data. While at UCSB, I have committed to seeking out courses that supplement my experience, including courses in SQL, Python, and R with an emphasis on statistics, GIS, and machine learning. 
 
 *See "About" for details on my doctoral research!*
 
